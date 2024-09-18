@@ -65,11 +65,11 @@ export const UserTable = () => {
                 <div className={styles.headerLabel}>
                   {header.LABEL}
                   <img
-                    src='public/assets/images/Sort Icon.svg'
+                    src='/assets/images/Sort Icon.svg'
                   />
                 </div>
                 <div className={styles.inputContainer} onClick={(e) => e.stopPropagation()}>
-                  <img src="public/assets/images/SearchIcon.svg" />
+                  <img src="/assets/images/SearchIcon.svg" />
                   <input
                     placeholder={`Search ${header.LABEL}...`}
                     className={styles.input}
