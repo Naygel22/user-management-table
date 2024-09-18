@@ -86,10 +86,10 @@ export const UserTable = () => {
       <tbody>
         {filteredUsers.map((user, index) => (
           <tr key={index}>
-            <td className={styles.nameColumn}>{user.name}</td>
-            <td className={styles.usernameColumn}>{user.username}</td>
-            <td className={styles.emailColumn}>{user.email}</td>
-            <td className={styles.phoneColumn}>{user.phone}</td>
+            <td data-label="Name" className={styles.nameColumn}>{user.name}</td>
+            <td data-label="Username" className={styles.usernameColumn}>{user.username}</td>
+            <td data-label="Email" className={styles.emailColumn}>{user.email}</td>
+            <td data-label="Phone" className={styles.phoneColumn}>{user.phone}</td>
           </tr>
         ))}
       </tbody>

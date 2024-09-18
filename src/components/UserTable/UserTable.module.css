@@ -3,6 +3,7 @@
   border-collapse: collapse;
   border-style: none;
   color: black;
+  margin-top: 40px;
 }
 
 .usersTable th,
@@ -47,22 +48,6 @@
   background-color: var(--light-purple);
 }
 
-/* .nameColumn {
-  width: 240px;
-}
-
-.usernameColumn {
-  width: 130px;
-}
-
-.emailColumn {
-  width: 180px;
-}
-
-.phoneColumn {
-  width: 199px;
-} */
-
 .headerContent {
   display: flex;
   flex-direction: column;
@@ -102,4 +87,44 @@
 
 .input:focus {
   outline: none;
+}
+
+@media (max-width: 650px) {
+  .usersTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .usersTable th {
+    display: none;
+  }
+
+  .usersTable td {
+    display: flex;
+    align-items: center;
+    padding: 4px 20px;
+    font-size: 16px;
+    height: 45px;
+    text-align: left;
+  }
+
+  .usersTable td::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    margin-right: 5px;
+  }
+
+
+}
+
+@media (max-width: 1000px) {
+
+  .usersTable th,
+  .usersTable td {
+    font-size: 15px;
+  }
+
+  .input {
+    font-size: 13px;
+  }
 }
