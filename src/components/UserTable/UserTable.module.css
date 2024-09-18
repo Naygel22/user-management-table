@@ -1,0 +1,105 @@
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: none;
+  color: black;
+}
+
+.usersTable th,
+.usersTable td {
+  padding: 12px 0px 12px 0px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.usersTable th {
+  cursor: pointer;
+  height: 60px;
+}
+
+.usersTable td {
+  height: 70px;
+}
+
+.usersTable tbody tr:first-child td:first-child {
+  border-top-left-radius: 12px;
+}
+
+.usersTable tbody tr:first-child td:last-child {
+  border-top-right-radius: 12px;
+}
+
+.usersTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.usersTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+.usersTable tbody tr:nth-child(odd) {
+  background-color: var(--white);
+}
+
+.usersTable tbody tr:nth-child(even) {
+  background-color: var(--light-purple);
+}
+
+/* .nameColumn {
+  width: 240px;
+}
+
+.usernameColumn {
+  width: 130px;
+}
+
+.emailColumn {
+  width: 180px;
+}
+
+.phoneColumn {
+  width: 199px;
+} */
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerLabel img {
+  margin-left: 5px;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 16px;
+  width: 90%;
+  height: 40px;
+  margin-top: 8px;
+  border: 2px solid var(--gray);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.input {
+  font-size: 16px;
+  font-weight: 100;
+  border: none;
+  width: 80%;
+  letter-spacing: 1px;
+}
+
+.input:focus {
+  outline: none;
+}
