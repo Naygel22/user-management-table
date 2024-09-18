@@ -1,23 +1,19 @@
-import { useState } from 'react';
 import styles from './UserTable.module.css';
-import { useQuery } from "@tanstack/react-query";
-import { getAllUsers } from '../../api/getAllUsers';
-import { Header, SortState } from './UserTable.types';
-import { User } from '../../api/getAllUsers.types';
+import { Header } from './UserTable.types';
+import { useAppDispatch, useAppSelector } from '../../state/store';
+import { changeFilterState } from '../../state/filtersSlice';
+import { useGetAllUsersQuery } from '../../state/users';
+import { headers } from './helpers';
+import { User } from '../../apiTypes/users.types';
+import { setSort } from '../../state/sortSlice';
 
 export const UserTable = () => {
-  const [sort, setSort] = useState<SortState>({ keyToSort: 'name', direction: 'asc' });
-  const [searchValues, setSearchValues] = useState<{ [key: string]: string }>({
-    name: '',
-    username: '',
-    email: '',
-    phone: ''
-  });
+  const sort = useAppSelector(state => state.userTableSort)
+  const searchValues = useAppSelector(state => state.userTableFilters)
 
-  const { data: users, isLoading, error } = useQuery({
-    queryKey: ["users"],
-    queryFn: getAllUsers
-  });
+  const dispatch = useAppDispatch()
+
+  const { data: users = [], error, isLoading } = useGetAllUsersQuery()
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -31,30 +27,18 @@ export const UserTable = () => {
     return <p>No data</p>;
   }
 
-  const headers: Header[] = [
-    { id: 1, KEY: "name", LABEL: "Name" },
-    { id: 2, KEY: "username", LABEL: "Username" },
-    { id: 3, KEY: "email", LABEL: "Email" },
-    { id: 4, KEY: "phone", LABEL: "Phone" }
-  ];
-
   function handleHeaderClick(header: Header) {
-    setSort({
-      keyToSort: header.KEY,
-      direction:
-        header.KEY === sort.keyToSort ? (sort.direction === 'asc' ? 'desc' : 'asc') : 'desc'
-    });
+    dispatch(setSort({
+      headerKey: header.KEY,
+    }))
   }
 
-  function handleSearchChange(headerKey: string, value: string) {
-    setSearchValues(prevValues => ({
-      ...prevValues,
-      [headerKey]: value
-    }));
+  function handleSearchChange(headerKey: keyof User, value: string) {
+    dispatch(changeFilterState({ headerKey, value }))
   }
 
   function getSortedUsers(arrayToSort: User[]) {
-    return arrayToSort.sort((a, b) => {
+    return [...arrayToSort].sort((a, b) => {
       if (sort.direction === 'asc') {
         return a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1;
       }
@@ -63,13 +47,13 @@ export const UserTable = () => {
   }
 
   const filteredUsers = getSortedUsers(users).filter(user =>
-    headers.every(header =>
-      user[header.KEY]
+    headers.every(header => {
+      const searchedValue = searchValues[header.KEY] || ''
+      return user[header.KEY]
         .toString()
         .toLowerCase()
-        .includes(searchValues[header.KEY].toLowerCase())
-    )
-  );
+        .includes(searchedValue.toLowerCase())
+    }))
 
   return (
     <table className={styles.usersTable}>
