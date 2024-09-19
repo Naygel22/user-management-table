@@ -1,19 +1,14 @@
 import styles from './UserTable.module.css';
-import { Header } from './UserTable.types';
-import { useAppDispatch, useAppSelector } from '../../state/store';
-import { changeFilterState } from '../../state/filtersSlice';
+import { useAppSelector } from '../../state/store';
 import { useGetAllUsersQuery } from '../../state/users';
-import { headers } from './helpers';
 import { User } from '../../apiTypes/users.types';
-import { setSort } from '../../state/sortSlice';
+import { TableHeader } from '../TableHeader/TableHeader';
 
 export const UserTable = () => {
-  const sort = useAppSelector(state => state.userTableSort)
-  const searchValues = useAppSelector(state => state.userTableFilters)
+  const sort = useAppSelector(state => state.userTableSort);
+  const searchValues = useAppSelector(state => state.userTableFilters);
 
-  const dispatch = useAppDispatch()
-
-  const { data: users = [], error, isLoading } = useGetAllUsersQuery()
+  const { data: users = [], error, isLoading } = useGetAllUsersQuery();
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -27,16 +22,6 @@ export const UserTable = () => {
     return <p>No data</p>;
   }
 
-  function handleHeaderClick(header: Header) {
-    dispatch(setSort({
-      headerKey: header.KEY,
-    }))
-  }
-
-  function handleSearchChange(headerKey: keyof User, value: string) {
-    dispatch(changeFilterState({ headerKey, value }))
-  }
-
   function getSortedUsers(arrayToSort: User[]) {
     return [...arrayToSort].sort((a, b) => {
       if (sort.direction === 'asc') {
@@ -46,44 +31,23 @@ export const UserTable = () => {
     });
   }
 
-  const filteredUsers = getSortedUsers(users).filter(user =>
-    headers.every(header => {
-      const searchedValue = searchValues[header.KEY] || ''
-      return user[header.KEY]
+  const filteredUsers = users.filter(user =>
+    Object.keys(searchValues).every(key => {
+      const searchedValue = searchValues[key as keyof User] || '';
+      return user[key as keyof User]
         .toString()
         .toLowerCase()
-        .includes(searchedValue.toLowerCase())
-    }))
+        .includes(searchedValue.toLowerCase());
+    })
+  );
+
+  const sortedUsers = getSortedUsers(filteredUsers);
 
   return (
     <table className={styles.usersTable}>
-      <thead>
-        <tr>
-          {headers.map(header => (
-            <th key={header.KEY} onClick={() => handleHeaderClick(header)}>
-              <div className={styles.headerContent}>
-                <div className={styles.headerLabel}>
-                  {header.LABEL}
-                  <img
-                    src='/assets/images/Sort Icon.svg'
-                  />
-                </div>
-                <div className={styles.inputContainer} onClick={(e) => e.stopPropagation()}>
-                  <img src="/assets/images/SearchIcon.svg" />
-                  <input
-                    placeholder={`Search ${header.LABEL}...`}
-                    className={styles.input}
-                    value={searchValues[header.KEY]}
-                    onChange={(e) => handleSearchChange(header.KEY, e.target.value)}
-                  />
-                </div>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
+      <TableHeader />
       <tbody>
-        {filteredUsers.map((user, index) => (
+        {sortedUsers.map((user, index) => (
           <tr key={index}>
             <td data-label="Name" className={styles.nameColumn}>{user.name}</td>
             <td data-label="Username" className={styles.usernameColumn}>{user.username}</td>

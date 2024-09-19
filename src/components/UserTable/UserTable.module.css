@@ -48,47 +48,6 @@
   background-color: var(--light-purple);
 }
 
-.headerContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.headerLabel {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.headerLabel img {
-  margin-left: 5px;
-}
-
-.inputContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 16px;
-  width: 90%;
-  height: 40px;
-  margin-top: 8px;
-  border: 2px solid var(--gray);
-  border-radius: 8px;
-  background-color: var(--white);
-}
-
-.input {
-  font-size: 16px;
-  font-weight: 100;
-  border: none;
-  width: 80%;
-  letter-spacing: 1px;
-}
-
-.input:focus {
-  outline: none;
-}
-
 @media (max-width: 650px) {
   .usersTable {
     margin-top: 20px;
@@ -127,9 +86,5 @@
   .usersTable th,
   .usersTable td {
     font-size: 15px;
-  }
-
-  .input {
-    font-size: 13px;
   }
 }

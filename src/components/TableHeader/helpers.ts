@@ -1,4 +1,4 @@
-import { Header } from "./UserTable.types";
+import { Header } from "./TableHeader.types";
 
 export const headers: Header[] = [
   { id: 1, KEY: "name", LABEL: "Name" },
