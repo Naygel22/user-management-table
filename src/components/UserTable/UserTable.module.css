@@ -96,7 +96,12 @@
   }
 
   .usersTable th {
-    display: none;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .usersTable th:last-child {
+    margin-bottom: 40px;
   }
 
   .usersTable td {
